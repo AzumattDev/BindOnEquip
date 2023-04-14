@@ -77,7 +77,7 @@ public static class Functions
             },
             normal =
             {
-                textColor = Color.gray
+                textColor = Color.black
             },
             active =
             {
@@ -146,7 +146,6 @@ public static class Functions
             BindOnEquipPlugin.ItemCategories category =
                 (BindOnEquipPlugin.ItemCategories)Enum.GetValues(typeof(BindOnEquipPlugin.ItemCategories))
                     .GetValue(i);
-            if (category == BindOnEquipPlugin.ItemCategories.None) continue;
             bool enabled =
                 (cfg.BoxedValue as BindOnEquipPlugin.ItemCategories? ?? BindOnEquipPlugin.ItemCategories.None)
                 .HasFlagFast(category);
