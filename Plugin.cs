@@ -19,7 +19,7 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.0.1";
+        internal const string ModVersion = "1.0.2";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
@@ -41,25 +41,26 @@ namespace BindOnEquip
             public const string BindTime = "BindTime";
             public const string IsBound = "IsBound";
         }
-
+        
         [Flags]
         public enum ItemCategories
         {
             None = 0,
-            Tool,
-            OneHandedWeapon,
-            TwoHandedWeapon,
-            TwoHandedWeaponLeft,
-            Bow,
-            Shield,
-            Helmet,
-            Chest,
-            Legs,
-            Shoulder,
-            Ammo,
-            Torch,
-            Utility
+            Tool = 1 << 0,
+            OneHandedWeapon = 1 << 1,
+            TwoHandedWeapon = 1 << 2,
+            TwoHandedWeaponLeft = 1 << 3,
+            Bow = 1 << 4,
+            Shield = 1 << 5,
+            Helmet = 1 << 6,
+            Chest = 1 << 7,
+            Legs = 1 << 8,
+            Shoulder = 1 << 9,
+            Ammo = 1 << 10,
+            Torch = 1 << 11,
+            Utility = 1 << 12
         }
+
 
         public enum Toggle
         {

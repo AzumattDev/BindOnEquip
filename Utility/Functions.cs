@@ -45,12 +45,63 @@ public static class Functions
                data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName] == playername;
     }
 
+    public static BindOnEquipPlugin.ItemCategories? MapToItemCategories(ItemDrop.ItemData.ItemType itemType)
+    {
+        /* Having to do this dumb shit just because I need an enum that is smaller than the default ItemType one */
+        switch (itemType)
+        {
+            case ItemDrop.ItemData.ItemType.Tool:
+                return BindOnEquipPlugin.ItemCategories.Tool;
+            case ItemDrop.ItemData.ItemType.OneHandedWeapon:
+                return BindOnEquipPlugin.ItemCategories.OneHandedWeapon;
+            case ItemDrop.ItemData.ItemType.None:
+                return BindOnEquipPlugin.ItemCategories.None;
+            case ItemDrop.ItemData.ItemType.Bow:
+                return BindOnEquipPlugin.ItemCategories.Bow;
+            case ItemDrop.ItemData.ItemType.Shield:
+                return BindOnEquipPlugin.ItemCategories.Shield;
+            case ItemDrop.ItemData.ItemType.Helmet:
+                return BindOnEquipPlugin.ItemCategories.Helmet;
+            case ItemDrop.ItemData.ItemType.Chest:
+                return BindOnEquipPlugin.ItemCategories.Chest;
+            case ItemDrop.ItemData.ItemType.Ammo:
+                return BindOnEquipPlugin.ItemCategories.Ammo;
+            case ItemDrop.ItemData.ItemType.Legs:
+                return BindOnEquipPlugin.ItemCategories.Legs;
+            case ItemDrop.ItemData.ItemType.TwoHandedWeapon:
+                return BindOnEquipPlugin.ItemCategories.TwoHandedWeapon;
+            case ItemDrop.ItemData.ItemType.Torch:
+                return BindOnEquipPlugin.ItemCategories.Torch;
+            case ItemDrop.ItemData.ItemType.Utility:
+                return BindOnEquipPlugin.ItemCategories.Utility;
+            case ItemDrop.ItemData.ItemType.Shoulder:
+                return BindOnEquipPlugin.ItemCategories.Shoulder;
+            case ItemDrop.ItemData.ItemType.TwoHandedWeaponLeft:
+                return BindOnEquipPlugin.ItemCategories.TwoHandedWeaponLeft;
+            case ItemDrop.ItemData.ItemType.AmmoNonEquipable:
+            case ItemDrop.ItemData.ItemType.Material:
+            case ItemDrop.ItemData.ItemType.Consumable:
+            case ItemDrop.ItemData.ItemType.Customization:
+            case ItemDrop.ItemData.ItemType.Misc:
+            case ItemDrop.ItemData.ItemType.Hands:
+            case ItemDrop.ItemData.ItemType.Trophie:
+            case ItemDrop.ItemData.ItemType.Attach_Atgeir:
+            case ItemDrop.ItemData.ItemType.Fish:
+            default:
+                return null;
+        }
+    }
+    
     public static bool IsIncludedItemType(this ItemDrop.ItemData.SharedData sharedData)
     {
-        return BindOnEquipPlugin.IncludedCategories.Value.HasFlagFast(
-            (BindOnEquipPlugin.ItemCategories)Enum.Parse(typeof(BindOnEquipPlugin.ItemCategories),
-                sharedData.m_itemType.ToString()));
+        var mappedCategory = MapToItemCategories(sharedData.m_itemType);
+        if (mappedCategory.HasValue)
+        {
+            return BindOnEquipPlugin.IncludedCategories.Value.HasFlagFast(mappedCategory.Value);
+        }
+        return false;
     }
+
 
     internal static void PatchConfigManager()
     {
@@ -88,6 +139,25 @@ public static class Functions
             onFocused = { textColor = Color.red },
             onNormal = { textColor = Color.red },
         };
+        ConfigurationManagerPatch._disabledToggleStyle2 = new GUIStyle(GUI.skin.button)
+        {
+            focused =
+            {
+                textColor = Color.red,
+            },
+            normal =
+            {
+                textColor = Color.red
+            },
+            active =
+            {
+                textColor = Color.red
+            },
+            onHover = { textColor = Color.red },
+            onActive = { textColor = Color.red },
+            onFocused = { textColor = Color.red },
+            onNormal = { textColor = Color.red },
+        };
         ConfigurationManagerPatch._enabledToggleStyle = new GUIStyle(GUI.skin.button)
         {
             stretchWidth = true,
@@ -109,7 +179,7 @@ public static class Functions
             },
             onActive =
             {
-                textColor = Color.green
+                textColor = Color.green,
             },
             onFocused =
             {
@@ -162,10 +232,8 @@ public static class Functions
                 GUILayout.EndHorizontal();
             }
         }
-
-        GUILayout.EndVertical();
         GUILayout.FlexibleSpace();
-        if (GUILayout.Button("Disable All", ConfigurationManagerPatch._disabledToggleStyle) && !locked)
+        if (GUILayout.Button("Disable All", ConfigurationManagerPatch._disabledToggleStyle2) && !locked)
         {
             foreach (object? category in Enum.GetValues(typeof(BindOnEquipPlugin.ItemCategories)))
             {
@@ -173,5 +241,8 @@ public static class Functions
                                  ~(BindOnEquipPlugin.ItemCategories)category;
             }
         }
+        GUILayout.FlexibleSpace();
+        GUILayout.EndVertical();
+        
     }
 }

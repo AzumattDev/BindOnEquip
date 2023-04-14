@@ -10,6 +10,7 @@ static class ConfigurationManagerPatch
     internal static object? _configManager;
     internal static GUIStyle _enabledToggleStyle = null!;
     internal static GUIStyle _disabledToggleStyle = null!;
+    internal static GUIStyle _disabledToggleStyle2 = null!;
     
     static void Prefix(FejdStartup __instance)
     {
