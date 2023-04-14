@@ -32,7 +32,8 @@ public static class Functions
 
     public static bool IsCustomDataNull(this ItemDrop.ItemData data)
     {
-        return (string.IsNullOrWhiteSpace(data.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip]) || data.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip] == "default") &&
+        return (string.IsNullOrWhiteSpace(data.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip]) ||
+                data.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip] == "default") &&
                string.IsNullOrWhiteSpace(data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID]) &&
                string.IsNullOrWhiteSpace(data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName]) &&
                string.IsNullOrWhiteSpace(data.Data()[BindOnEquipPlugin.ItemDataKeys.BindTime]);
@@ -40,8 +41,6 @@ public static class Functions
 
     public static bool CompareItemData(this ItemDrop.ItemData data, string uid, string playername)
     {
-        BindOnEquipPlugin.BindOnEquipLogger.LogWarning(
-            $"Comparing data: {data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID]} == {uid} && {data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName]} == {playername}");
         return data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID] == uid &&
                data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName] == playername;
     }

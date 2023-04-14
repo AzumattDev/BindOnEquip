@@ -45,39 +45,16 @@ static class ItemDropInteractPatch
 {
     static bool Prefix(ItemDrop __instance)
     {
-        if (Player.m_localPlayer == null || Player.m_localPlayer.m_isLoading) return true;
+        return CommonMethods.CheckItemData(__instance.m_itemData);
+    }
+}
 
-        var item = __instance.m_itemData;
-
-        if (item != null && item.m_shared.IsIncludedItemType())
-        {
-            if (item.IsCustomDataNull())
-            {
-                BindOnEquipPlugin.BindOnEquipLogger.LogDebug("Custom data is null, setting default values");
-                string id = PrivilegeManager.GetCurrentPlatform() == PrivilegeManager.Platform.Steam
-                    ? Steamworks.SteamUser.GetSteamID().ToString()
-                    : PrivilegeManager.GetNetworkUserId();
-                item.SetAllItemData("true", id, Game.instance.GetPlayerProfile().m_playerName, DateTime.Now.ToString(),
-                    "true");
-            }
-
-            if (item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] == "true")
-            {
-                BindOnEquipPlugin.BindOnEquipLogger.LogDebug($"Item {item.m_shared.m_name} is bound, comparing data");
-                string id = PrivilegeManager.GetCurrentPlatform() == PrivilegeManager.Platform.Steam
-                    ? Steamworks.SteamUser.GetSteamID().ToString()
-                    : PrivilegeManager.GetNetworkUserId();
-
-                if (!item.CompareItemData(id, Game.instance.GetPlayerProfile().m_playerName))
-                {
-                    Player.m_localPlayer.Message(MessageHud.MessageType.Center,
-                        Localization.instance.Localize("$item_binds_on_equip_denymessage"));
-                    return false;
-                }
-            }
-        }
-
-        return true;
+[HarmonyPatch(typeof(Inventory), nameof(Inventory.CanAddItem), typeof(ItemDrop.ItemData), typeof(int))]
+static class InventoryCanAddItempatch
+{
+    static bool Prefix(Inventory __instance, ItemDrop.ItemData item, int stack = -1)
+    {
+        return CommonMethods.CheckItemData(item, false);
     }
 }
 
@@ -87,36 +64,7 @@ static class HumanoidEquipItemPatch
     static bool Prefix(ref Humanoid __instance, ref bool __result, ItemDrop.ItemData? item,
         bool triggerEquipEffects = true)
     {
-        if (Player.m_localPlayer == null || !__instance.IsPlayer() || Player.m_localPlayer.m_isLoading) return true;
-
-        if (item != null && item.m_shared.IsIncludedItemType())
-        {
-            if (item.IsCustomDataNull())
-            {
-                BindOnEquipPlugin.BindOnEquipLogger.LogDebug("Custom data is null, setting default values");
-                string id = PrivilegeManager.GetCurrentPlatform() == PrivilegeManager.Platform.Steam
-                    ? Steamworks.SteamUser.GetSteamID().ToString()
-                    : PrivilegeManager.GetNetworkUserId();
-                item.SetAllItemData("true", id, Game.instance.GetPlayerProfile().m_playerName, DateTime.Now.ToString(),
-                    "true");
-            }
-            else if (item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] == "true")
-            {
-                BindOnEquipPlugin.BindOnEquipLogger.LogDebug($"Item {item.m_shared.m_name} is bound, comparing data");
-                string id = PrivilegeManager.GetCurrentPlatform() == PrivilegeManager.Platform.Steam
-                    ? Steamworks.SteamUser.GetSteamID().ToString()
-                    : PrivilegeManager.GetNetworkUserId();
-
-                if (!item.CompareItemData(id, Game.instance.GetPlayerProfile().m_playerName))
-                {
-                    Player.m_localPlayer.Message(MessageHud.MessageType.Center,
-                        Localization.instance.Localize("$item_binds_on_equip_denymessage"));
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return CommonMethods.CheckItemData(item);
     }
 }
 
@@ -129,35 +77,7 @@ static class InventoryGridOnRightClickPatch
         ItemDrop.ItemData item = __instance.m_inventory.GetItemAt(buttonPos.x, buttonPos.y);
         if (__instance.m_onRightClick == null)
             return false;
-        if (Player.m_localPlayer == null || Player.m_localPlayer.m_isLoading) return true;
-        if (item != null && item.m_shared.IsIncludedItemType())
-        {
-            if (item.IsCustomDataNull())
-            {
-                BindOnEquipPlugin.BindOnEquipLogger.LogDebug("Custom data is null, setting default values");
-                string id = PrivilegeManager.GetCurrentPlatform() == PrivilegeManager.Platform.Steam
-                    ? Steamworks.SteamUser.GetSteamID().ToString()
-                    : PrivilegeManager.GetNetworkUserId();
-                item.SetAllItemData("true", id, Game.instance.GetPlayerProfile().m_playerName, DateTime.Now.ToString(),
-                    "true");
-            }
-            else if (item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] == "true")
-            {
-                BindOnEquipPlugin.BindOnEquipLogger.LogDebug($"Item {item.m_shared.m_name} is bound, comparing data");
-                string id = PrivilegeManager.GetCurrentPlatform() == PrivilegeManager.Platform.Steam
-                    ? Steamworks.SteamUser.GetSteamID().ToString()
-                    : PrivilegeManager.GetNetworkUserId();
-
-                if (!item.CompareItemData(id, Game.instance.GetPlayerProfile().m_playerName))
-                {
-                    Player.m_localPlayer.Message(MessageHud.MessageType.Center,
-                        Localization.instance.Localize("$item_binds_on_equip_denymessage"));
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return CommonMethods.CheckItemData(item);
     }
 }
 

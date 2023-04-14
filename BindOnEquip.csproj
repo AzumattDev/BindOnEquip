@@ -107,6 +107,7 @@
         <Compile Include="Patches\Functionality.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Utility\CommonMethods.cs" />
         <Compile Include="Utility\Extensions.cs" />
         <Compile Include="Utility\Functions.cs" />
         <Compile Include="Utility\VersionHandshake.cs" />
