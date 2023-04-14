@@ -1,0 +1,9 @@
+{
+  "name": "BindOnEquip",
+  "version_number": "1.0.0",
+  "website_url": "https://discord.gg/pdHgy6Bsng",
+  "description": "A mod for Valheim that allows players to bind items to their account on a character-specific basis, making the items\nunusable by others. The server can enforce what categories of items are bindable.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2105"
+  ]
+}

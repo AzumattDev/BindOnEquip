@@ -1,0 +1,6 @@
+# Ready to use english translation file for the plugin
+# (for more information on LocalizationManager, see the LocalizationManager documentation https://github.com/blaxxun-boop/LocalizationManager#example-project).
+
+item_binds_on_equip: "Binds on Equip"
+item_binds_on_equip_denymessage: "Sorry this item is bound to another player."
+item_isbound: "Item is bound to"
