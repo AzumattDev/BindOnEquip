@@ -19,7 +19,7 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.0.0";
+        internal const string ModVersion = "1.0.1";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
@@ -46,28 +46,19 @@ namespace BindOnEquip
         public enum ItemCategories
         {
             None = 0,
-            Material = 1,
-            Consumable = 2,
-            OneHandedWeapon = 4,
-            Bow = 8,
-            Shield = 16,
-            Helmet = 32,
-            Chest = 64,
-            Ammo = 128,
-            Customization = 256,
-            Legs = 512,
-            Hands = 1024,
-            Trophie = 2048,
-            TwoHandedWeapon = 4096,
-            Torch = 8192,
-            Misc = 16384,
-            Shoulder = 32768,
-            Utility = 65536,
-            Tool = 131072,
-            Attach_Atgeir = 262144,
-            Fish = 524288,
-            TwoHandedWeaponLeft = 1048576,
-            AmmoNonEquipable = 2097152
+            Tool,
+            OneHandedWeapon,
+            TwoHandedWeapon,
+            TwoHandedWeaponLeft,
+            Bow,
+            Shield,
+            Helmet,
+            Chest,
+            Legs,
+            Shoulder,
+            Ammo,
+            Torch,
+            Utility
         }
 
         public enum Toggle
@@ -85,11 +76,7 @@ namespace BindOnEquip
             _ = ConfigSync.AddLockingConfigEntry(_serverConfigLocked);
 
             IncludedCategories = ItemCatConfig("1 - General", "Included Categories",
-                (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() &
-                ~(ItemCategories.Material | ItemCategories.Consumable | ItemCategories.Ammo |
-                  ItemCategories.AmmoNonEquipable |
-                  ItemCategories.Customization | ItemCategories.Trophie | ItemCategories.Torch | ItemCategories.Misc |
-                  ItemCategories.Tool | ItemCategories.Fish),
+                (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool ),
                 "List of item categories that are affected by the bind on equip. What this means is items with these categories will use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or weapons.");
 
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -105,7 +92,6 @@ namespace BindOnEquip
         private void AutoDoc()
         {
 #if DEBUG
-
             // Store Regex to get all characters after a [
             Regex regex = new(@"\[(.*?)\]");
 

@@ -68,8 +68,8 @@ be equipped. This ensures that items are only usable by the intended character o
 * List of item categories that are affected by the bind on equip. What this means is items with these categories will
   use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or
   weapons.
-    * Default Value: OneHandedWeapon, Bow, Shield, Helmet, Chest, Legs, Hands, TwoHandedWeapon, Shoulder, Utility, Attach_Atgeir, TwoHandedWeaponLeft
-      Acceptable values: Material, Consumable, OneHandedWeapon, Bow, Shield, Helmet, Chest, Ammo, Customization, Legs, Hands, Trophie, TwoHandedWeapon, Torch, Misc, Shoulder, Utility, Tool, Attach_Atgeir, Fish, TwoHandedWeaponLeft, AmmoNonEquipable
+    * Default Value: OneHandedWeapon, TwoHandedWeapon, TwoHandedWeaponLeft, Bow, Shield, Helmet, Chest, Legs, Shoulder, Utility
+      Acceptable values: None, Tool, OneHandedWeapon, TwoHandedWeapon, TwoHandedWeaponLeft, Bow, Shield, Helmet, Chest, Legs, Shoulder, Ammo, Torch, Utility
 
 ## Author Information
 
