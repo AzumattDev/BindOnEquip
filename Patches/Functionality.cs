@@ -92,7 +92,7 @@ static class ObjectDBAwakePatch
             if (itemDrop != null)
             {
                 ItemDrop.ItemData itemData = itemDrop.m_itemData;
-                if (itemData.m_shared.IsIncludedItemType()) continue;
+                if (!itemData.m_shared.IsIncludedItemType()) continue;
                 if (itemData.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] != "true")
                 {
                     itemData.DefaultSetAllItemData("default", "", "", "", "");
