@@ -64,7 +64,17 @@ static class HumanoidEquipItemPatch
     static bool Prefix(ref Humanoid __instance, ref bool __result, ItemDrop.ItemData? item,
         bool triggerEquipEffects = true)
     {
-        return CommonMethods.CheckItemData(item);
+        if (__instance.IsPlayer())
+        {
+            if (item != null)
+            {
+                return CommonMethods.CheckItemData(item);
+            }
+
+            return true;
+        }
+
+        return true;
     }
 }
 

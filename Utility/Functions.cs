@@ -84,7 +84,7 @@ public static class Functions
             case ItemDrop.ItemData.ItemType.Customization:
             case ItemDrop.ItemData.ItemType.Misc:
             case ItemDrop.ItemData.ItemType.Hands:
-            case ItemDrop.ItemData.ItemType.Trophie:
+            case ItemDrop.ItemData.ItemType.Trophy:
             case ItemDrop.ItemData.ItemType.Attach_Atgeir:
             case ItemDrop.ItemData.ItemType.Fish:
             default:
