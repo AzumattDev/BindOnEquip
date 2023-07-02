@@ -1,11 +1,11 @@
 ﻿using System;
-using BindOnEquip.Managers;
+using ItemDataManager;
 
 namespace BindOnEquip.Utility;
 
 static class CommonMethods
 {
-    public static bool CheckItemData(ItemDrop.ItemData item, bool showdenymessage = true)
+    public static bool CheckItemData(ItemDrop.ItemData item, bool showdenymessage = true, bool isEquipAction = true)
     {
         if (Player.m_localPlayer == null || Player.m_localPlayer.m_isLoading) return true;
 
@@ -16,7 +16,10 @@ static class CommonMethods
 #if DEBUG
                 BindOnEquipPlugin.BindOnEquipLogger.LogDebug("Custom data is null, setting default values");
 #endif
-                SetDefaultItemData(item);
+                if (isEquipAction)
+                    BindToCurrentPlayer(item);
+                else
+                    item.DefaultSetAllItemData();
             }
             else if (item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] == "true")
             {
@@ -41,11 +44,10 @@ static class CommonMethods
         return true;
     }
 
-    public static void SetDefaultItemData(ItemDrop.ItemData item)
+    public static void BindToCurrentPlayer(ItemDrop.ItemData item)
     {
         string id = GetPlatformUserId();
-        item.SetAllItemData("true", id, Game.instance.GetPlayerProfile().m_playerName, DateTime.Now.ToString(),
-            "true");
+        item.DefaultSetAllItemData("true", id, Game.instance.GetPlayerProfile().m_playerName, DateTime.Now.ToString(), "true");
     }
 
     public static string GetPlatformUserId()

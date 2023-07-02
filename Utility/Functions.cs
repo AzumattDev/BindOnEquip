@@ -2,26 +2,15 @@
 using System.Linq;
 using System.Reflection;
 using BepInEx.Configuration;
-using BindOnEquip.Managers;
 using BindOnEquip.Patches;
+using ItemDataManager;
 using UnityEngine;
 
 namespace BindOnEquip.Utility;
 
 public static class Functions
 {
-    public static void SetAllItemData(this ItemDrop.ItemData data, string bind, string uid, string playername,
-        string bindtime, string isbound)
-    {
-        data.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip] = bind;
-        data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID] = uid;
-        data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName] = playername;
-        data.Data()[BindOnEquipPlugin.ItemDataKeys.BindTime] = bindtime;
-        data.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] = isbound;
-    }
-
-    public static void DefaultSetAllItemData(this ItemDrop.ItemData data, string bind, string uid, string playername,
-        string bindtime, string isbound)
+    public static void DefaultSetAllItemData(this ItemDrop.ItemData data, string bind = "default", string uid = "", string playername = "", string bindtime = "", string isbound = "")
     {
         data.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip] = bind;
         data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID] = uid;
@@ -91,7 +80,7 @@ public static class Functions
                 return null;
         }
     }
-    
+
     public static bool IsIncludedItemType(this ItemDrop.ItemData.SharedData sharedData)
     {
         var mappedCategory = MapToItemCategories(sharedData.m_itemType);
@@ -99,6 +88,7 @@ public static class Functions
         {
             return BindOnEquipPlugin.IncludedCategories.Value.HasFlagFast(mappedCategory.Value);
         }
+
         return false;
     }
 
@@ -232,6 +222,7 @@ public static class Functions
                 GUILayout.EndHorizontal();
             }
         }
+
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("Disable All", ConfigurationManagerPatch._disabledToggleStyle2) && !locked)
         {
@@ -241,8 +232,8 @@ public static class Functions
                                  ~(BindOnEquipPlugin.ItemCategories)category;
             }
         }
+
         GUILayout.FlexibleSpace();
         GUILayout.EndVertical();
-        
     }
 }

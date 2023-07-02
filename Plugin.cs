@@ -7,10 +7,10 @@ using System.Text.RegularExpressions;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
-using BindOnEquip.Managers;
 using BindOnEquip.Utility;
 using HarmonyLib;
 using JetBrains.Annotations;
+using LocalizationManager;
 using ServerSync;
 
 namespace BindOnEquip
@@ -19,7 +19,7 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.1.3";
+        internal const string ModVersion = "1.2.0";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
@@ -41,7 +41,7 @@ namespace BindOnEquip
             public const string BindTime = "BindTime";
             public const string IsBound = "IsBound";
         }
-        
+
         [Flags]
         public enum ItemCategories
         {
@@ -77,7 +77,7 @@ namespace BindOnEquip
             _ = ConfigSync.AddLockingConfigEntry(_serverConfigLocked);
 
             IncludedCategories = ItemCatConfig("1 - General", "Included Categories",
-                (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool ),
+                (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool),
                 "List of item categories that are affected by the bind on equip. What this means is items with these categories will use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or weapons.");
 
             Assembly assembly = Assembly.GetExecutingAssembly();

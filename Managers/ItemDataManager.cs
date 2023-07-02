@@ -11,7 +11,7 @@ using HarmonyLib;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace BindOnEquip.Managers;
+namespace ItemDataManager;
 
 [PublicAPI]
 public abstract class ItemData
@@ -739,7 +739,7 @@ public class ForeignItemInfo : IEnumerable<object>
 					call = call.MakeGenericMethod(generic);
 				}
 
-				call.Invoke(foreignItemInfo, values);
+				return call.Invoke(foreignItemInfo, values);
 			}
 		}
 		return null;
