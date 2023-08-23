@@ -19,7 +19,7 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.2.0";
+        internal const string ModVersion = "1.2.1";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
