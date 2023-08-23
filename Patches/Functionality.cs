@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BindOnEquip.Patches;
 
 [HarmonyPatch(typeof(ItemDrop.ItemData), nameof(ItemDrop.ItemData.GetTooltip), typeof(ItemDrop.ItemData), typeof(int),
-    typeof(bool))]
+    typeof(bool), typeof(float))]
 static class ItemDropItemDataGetTooltipPatch
 {
     static void Postfix(ItemDrop.ItemData item, int qualityLevel, bool crafting, ref string __result)
