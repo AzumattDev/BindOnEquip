@@ -12,6 +12,14 @@ can only be equipped by the intended character on the bound account.
 The item binding checks the SteamID of the account and the player name. If either of them do not match, the item cannot
 be equipped. This ensures that items are only usable by the intended character on the bound account.
 
+
+### The Unbinder
+
+The Unbinder is an item that allows you to unbind your gear from yourself. Craft it, drag and drop it onto the item you want to unbind.
+- Crafted at the Forge by default
+- Requires 5x Iron, 1x Leather Scraps, 1x Greydwarf Eye
+
+
 `Version checks with itself. If installed on the server, it will kick clients who do not have it installed.`
 
 `This mod uses ServerSync, if installed on the server and all clients, it will sync all configs to client`

@@ -12,7 +12,7 @@
         <AssemblyName>BindOnEquip</AssemblyName>
         <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <LangVersion>10</LangVersion>
+        <LangVersion>11</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -98,6 +98,9 @@
         <Reference Include="UnityEngine.IMGUIModule">
             <HintPath>$(CorlibPath)\UnityEngine.IMGUIModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.ParticleSystemModule">
+          <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\unstripped_corlib\UnityEngine.ParticleSystemModule.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine.PhysicsModule">
             <HintPath>$(CorlibPath)\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
@@ -113,9 +116,11 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Managers\ItemDataManager.cs"/>
+        <Compile Include="Managers\ItemManager.cs" />
         <Compile Include="Managers\LocalizationManager.cs"/>
         <Compile Include="Patches\ConfigurationManagerPatches.cs"/>
         <Compile Include="Patches\Functionality.cs"/>
+        <Compile Include="Patches\Unbind.cs" />
         <Compile Include="Plugin.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="Utility\CommonMethods.cs"/>
@@ -129,6 +134,7 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include=".gitignore"/>
+        <EmbeddedResource Include="assets\bindonequip" />
         <Content Include="environment.props"/>
         <Content Include="ILRepack.targets"/>
         <Content Include="Libs\ServerSync.dll">

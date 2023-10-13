@@ -236,4 +236,22 @@ public static class Functions
         GUILayout.FlexibleSpace();
         GUILayout.EndVertical();
     }
+
+    internal static void TrashItem(InventoryGui __instance, Inventory ___m_dragInventory,
+        ItemDrop.ItemData ___m_dragItem, int ___m_dragAmount)
+    {
+        if (___m_dragAmount == ___m_dragItem.m_stack)
+        {
+            Player.m_localPlayer.RemoveEquipAction(___m_dragItem);
+            Player.m_localPlayer.UnequipItem(___m_dragItem, false);
+            ___m_dragInventory.RemoveItem(___m_dragItem);
+        }
+        else
+        {
+            ___m_dragInventory.RemoveItem(___m_dragItem, ___m_dragAmount);
+        }
+
+        __instance.SetupDragItem(null, null, 0);
+        __instance.UpdateCraftingPanel(false);
+    }
 }

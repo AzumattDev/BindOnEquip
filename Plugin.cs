@@ -9,6 +9,7 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using BindOnEquip.Utility;
 using HarmonyLib;
+using ItemManager;
 using JetBrains.Annotations;
 using LocalizationManager;
 using ServerSync;
@@ -19,7 +20,7 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.2.4";
+        internal const string ModVersion = "1.3.0";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
@@ -79,6 +80,16 @@ namespace BindOnEquip
             IncludedCategories = ItemCatConfig("1 - General", "Included Categories",
                 (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool),
                 "List of item categories that are affected by the bind on equip. What this means is items with these categories will use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or weapons.");
+
+            Item heroBlade = new("bindonequip", "Unbinder");
+            heroBlade.Crafting.Add(CraftingTable.Forge, 2);
+            heroBlade.RequiredItems.Add("Iron", 5);
+            heroBlade.RequiredItems.Add("LeatherScraps", 1);
+            heroBlade.RequiredItems.Add("GreydwarfEye", 1);
+            heroBlade.RequiredUpgradeItems.Add("Iron", 2);
+            heroBlade.RequiredUpgradeItems.Add("LeatherScraps", 1);
+            heroBlade.RequiredUpgradeItems.Add("GreydwarfEye", 1);
+
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             _harmony.PatchAll(assembly);

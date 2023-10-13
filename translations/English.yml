@@ -4,3 +4,5 @@
 item_binds_on_equip: "Binds on Equip"
 item_binds_on_equip_denymessage: "Sorry this item is bound to another player."
 item_isbound: "Item is bound to"
+item_azu_unbinder: "Unbinder"
+item_azu_unbinder_description: "Unbinds an item from a player."
