@@ -21,7 +21,7 @@ static class CommonMethods
                 else
                     item.DefaultSetAllItemData();
             }
-            else if (item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] == "true")
+            else if (item.IsBound())
             {
 #if DEBUG
                 BindOnEquipPlugin.BindOnEquipLogger.LogDebug($"Item {item.m_shared.m_name} is bound, comparing data");
@@ -32,8 +32,7 @@ static class CommonMethods
                 {
                     if (showdenymessage)
                     {
-                        Player.m_localPlayer.Message(MessageHud.MessageType.Center,
-                            Localization.instance.Localize("$item_binds_on_equip_denymessage"));
+                        Player.m_localPlayer.Message(MessageHud.MessageType.Center, Localization.instance.Localize("$item_binds_on_equip_denymessage"));
                     }
 
                     return false;

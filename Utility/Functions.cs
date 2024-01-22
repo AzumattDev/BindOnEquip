@@ -33,6 +33,11 @@ public static class Functions
         return data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID] == uid &&
                data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName] == playername;
     }
+    
+    public static bool IsBound(this ItemDrop.ItemData data)
+    {
+        return data.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] == "true";
+    }
 
     public static BindOnEquipPlugin.ItemCategories? MapToItemCategories(ItemDrop.ItemData.ItemType itemType)
     {
@@ -95,17 +100,14 @@ public static class Functions
 
     internal static void PatchConfigManager()
     {
-        Assembly? bepinexConfigManager = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name == "ConfigurationManager");
+        Assembly? bepinexConfigManager = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == "ConfigurationManager");
 
         Type? configManagerType = bepinexConfigManager?.GetType("ConfigurationManager.ConfigurationManager");
         ConfigurationManagerPatch._configManager = configManagerType == null
             ? null
             : BepInEx.Bootstrap.Chainloader.ManagerObject.GetComponent(configManagerType);
 
-        void reloadConfigDisplay() =>
-            configManagerType?.GetMethod("BuildSettingList")!.Invoke(ConfigurationManagerPatch._configManager,
-                Array.Empty<object>());
+        void reloadConfigDisplay() => configManagerType?.GetMethod("BuildSettingList")!.Invoke(ConfigurationManagerPatch._configManager, Array.Empty<object>());
     }
 
     internal static void DrawCategoriesTable(ConfigEntryBase cfg)
@@ -189,8 +191,7 @@ public static class Functions
 
         bool wasUpdated = false;
 
-        int RightColumnWidth =
-            (int)(ConfigurationManagerPatch._configManager?.GetType()
+        int RightColumnWidth = (int)(ConfigurationManagerPatch._configManager?.GetType()
                 .GetProperty("RightColumnWidth", BindingFlags.Instance | BindingFlags.NonPublic)!.GetGetMethod(true)
                 .Invoke(ConfigurationManagerPatch._configManager, Array.Empty<object>()) ?? 130);
         GUILayout.BeginVertical();
@@ -237,8 +238,7 @@ public static class Functions
         GUILayout.EndVertical();
     }
 
-    internal static void TrashItem(InventoryGui __instance, Inventory ___m_dragInventory,
-        ItemDrop.ItemData ___m_dragItem, int ___m_dragAmount)
+    internal static void TrashItem(InventoryGui __instance, Inventory ___m_dragInventory, ItemDrop.ItemData ___m_dragItem, int ___m_dragAmount)
     {
         if (___m_dragAmount == ___m_dragItem.m_stack)
         {

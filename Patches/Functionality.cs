@@ -7,8 +7,7 @@ using UnityEngine;
 
 namespace BindOnEquip.Patches;
 
-[HarmonyPatch(typeof(ItemDrop.ItemData), nameof(ItemDrop.ItemData.GetTooltip), typeof(ItemDrop.ItemData), typeof(int),
-    typeof(bool), typeof(float))]
+[HarmonyPatch(typeof(ItemDrop.ItemData), nameof(ItemDrop.ItemData.GetTooltip), typeof(ItemDrop.ItemData), typeof(int), typeof(bool), typeof(float))]
 static class ItemDropItemDataGetTooltipPatch
 {
     static void Postfix(ItemDrop.ItemData item, int qualityLevel, bool crafting, ref string __result)
@@ -17,8 +16,8 @@ static class ItemDropItemDataGetTooltipPatch
         {
             if (item.m_shared.IsIncludedItemType())
             {
-                string bindOnEquip = item.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip];
-                string isBound = item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound];
+                string? bindOnEquip = item.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip];
+                string? isBound = item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound];
                 StringBuilder sb = new StringBuilder($"{Environment.NewLine}");
 
                 if ((bindOnEquip == "default" || isBound != "true") && isBound != "true")
@@ -70,10 +69,7 @@ static class InventoryAddItemPatch
 [HarmonyPatch(typeof(InventoryGui), nameof(InventoryGui.OnSelectedItem))]
 static class InventoryGuiOnSelectedItemPatch
 {
-    static bool Prefix(InventoryGui __instance, InventoryGrid grid,
-        ItemDrop.ItemData item,
-        Vector2i pos,
-        InventoryGrid.Modifier mod)
+    static bool Prefix(InventoryGui __instance, InventoryGrid grid, ItemDrop.ItemData item, Vector2i pos, InventoryGrid.Modifier mod)
     {
         return CommonMethods.CheckItemData(__instance.m_dragItem, true, false);
     }
@@ -82,8 +78,7 @@ static class InventoryGuiOnSelectedItemPatch
 [HarmonyPatch(typeof(Humanoid), nameof(Humanoid.EquipItem))]
 static class HumanoidEquipItemPatch
 {
-    static bool Prefix(ref Humanoid __instance, ref bool __result, ItemDrop.ItemData? item,
-        bool triggerEquipEffects = true)
+    static bool Prefix(ref Humanoid __instance, ref bool __result, ItemDrop.ItemData? item, bool triggerEquipEffects = true)
     {
         if (__instance.IsPlayer())
         {
