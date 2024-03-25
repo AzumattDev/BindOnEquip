@@ -8,8 +8,7 @@ static class CommonMethods
     public static bool CheckItemData(ItemDrop.ItemData item, bool showdenymessage = true, bool isEquipAction = true)
     {
         if (Player.m_localPlayer == null || Player.m_localPlayer.m_isLoading) return true;
-
-        if (item != null && item.m_shared.IsIncludedItemType())
+        if (item != null && (item.m_shared.IsIncludedItemType() || item.IsIncludedItem()))
         {
             if (item.IsCustomDataNull())
             {

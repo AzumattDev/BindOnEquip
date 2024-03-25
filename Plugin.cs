@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -20,7 +21,7 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.3.2";
+        internal const string ModVersion = "1.4.0";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
@@ -42,6 +43,8 @@ namespace BindOnEquip
             public const string BindTime = "BindTime";
             public const string IsBound = "IsBound";
         }
+
+        public static List<string> MappedItems = new List<string>();
 
         [Flags]
         public enum ItemCategories
@@ -80,6 +83,9 @@ namespace BindOnEquip
             IncludedCategories = ItemCatConfig("1 - General", "Included Categories",
                 (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool),
                 "List of item categories that are affected by the bind on equip. What this means is items with these categories will use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or weapons.");
+
+            IncludedItems = config("1 - General", "Included Items", "", "List of items to be forced bounded, no spaces, like the following, 'ArmorCarapaceChest,SwordIron'");
+
 
             Item heroBlade = new("bindonequip", "Unbinder");
             heroBlade.Crafting.Add(CraftingTable.Forge, 2);
@@ -154,6 +160,9 @@ namespace BindOnEquip
             {
                 BindOnEquipLogger.LogDebug("ReadConfigValues called");
                 Config.Reload();
+                MappedItems.Clear();
+                MappedItems = IncludedItems.Value.Split(',').ToList();
+
             }
             catch
             {
@@ -167,6 +176,7 @@ namespace BindOnEquip
 
         private static ConfigEntry<Toggle> _serverConfigLocked = null!;
         internal static ConfigEntry<ItemCategories> IncludedCategories = null!;
+        internal static ConfigEntry<string> IncludedItems = null!;
 
         private ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description,
             bool synchronizedSetting = true)
