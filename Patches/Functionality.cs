@@ -12,9 +12,10 @@ static class ItemDropItemDataGetTooltipPatch
 {
     static void Postfix(ItemDrop.ItemData item, int qualityLevel, bool crafting, ref string __result)
     {
+
         if (item?.m_dropPrefab is { } prefab)
         {
-            if (item.m_shared.IsIncludedItemType())
+            if (item.m_shared.IsIncludedItemType() || item.IsIncludedItem())
             {
                 string? bindOnEquip = item.Data()[BindOnEquipPlugin.ItemDataKeys.BindOnEquip];
                 string? isBound = item.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound];
@@ -118,7 +119,7 @@ static class ObjectDBAwakePatch
             if (itemDrop != null)
             {
                 ItemDrop.ItemData itemData = itemDrop.m_itemData;
-                if (!itemData.m_shared.IsIncludedItemType()) continue;
+                if (!itemData.m_shared.IsIncludedItemType() || !itemData.IsIncludedItem()) continue;
                 if (itemData.Data()[BindOnEquipPlugin.ItemDataKeys.IsBound] != "true")
                 {
                     itemData.DefaultSetAllItemData();

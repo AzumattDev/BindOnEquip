@@ -97,6 +97,15 @@ public static class Functions
         return false;
     }
 
+    public static bool IsIncludedItem(this ItemDrop.ItemData itemn)
+    {
+        if (BindOnEquipPlugin.MappedItems.Contains(itemn.m_dropPrefab.name))
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     internal static void PatchConfigManager()
     {

@@ -71,13 +71,20 @@ The Unbinder is an item that allows you to unbind your gear from yourself. Craft
 * If on, the configuration is locked and can be changed by server admins only.
     * Default Value: On
 
-**Ignored Categories [Synced with Server]**
+**Bounded Categories [Synced with Server]**
 
 * List of item categories that are affected by the bind on equip. What this means is items with these categories will
   use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or
   weapons.
     * Default Value: OneHandedWeapon, TwoHandedWeapon, TwoHandedWeaponLeft, Bow, Shield, Helmet, Chest, Legs, Shoulder, Utility
       Acceptable values: None, Tool, OneHandedWeapon, TwoHandedWeapon, TwoHandedWeaponLeft, Bow, Shield, Helmet, Chest, Legs, Shoulder, Ammo, Torch, Utility
+
+ **Bounded Items [Synced with Server]**
+
+ 
+* List of item  that are affected by the bind on equip. What this means is item will use the bind on equip system. 
+* This is useful for items that are meant to be bound to a player, such as armor or weapons.
+* Uses Item Prefab Name
 
 ## Author Information
 
