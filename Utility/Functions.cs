@@ -99,7 +99,7 @@ public static class Functions
 
     public static bool IsIncludedItem(this ItemDrop.ItemData itemn)
     {
-        if (BindOnEquipPlugin.MappedItems.Contains(itemn.m_dropPrefab.name))
+        if (BindOnEquipPlugin.MappedItems.Contains(itemn?.m_dropPrefab?.name))
         {
             return true;
         }
