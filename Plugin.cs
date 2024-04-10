@@ -21,19 +21,17 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.4.0";
+        internal const string ModVersion = "1.3.3";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
         private static string ConfigFileFullPath = Paths.ConfigPath + Path.DirectorySeparatorChar + ConfigFileName;
         internal static string ConnectionError = "";
         private readonly Harmony _harmony = new(ModGUID);
+        public static readonly ManualLogSource BindOnEquipLogger = BepInEx.Logging.Logger.CreateLogSource(ModName);
+        private static readonly ConfigSync ConfigSync = new(ModGUID) { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion };
 
-        public static readonly ManualLogSource BindOnEquipLogger =
-            BepInEx.Logging.Logger.CreateLogSource(ModName);
-
-        private static readonly ConfigSync ConfigSync = new(ModGUID)
-            { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion };
+        public static List<string> MappedItems = new List<string>();
 
         public static class ItemDataKeys
         {
@@ -43,8 +41,6 @@ namespace BindOnEquip
             public const string BindTime = "BindTime";
             public const string IsBound = "IsBound";
         }
-
-        public static List<string> MappedItems = new List<string>();
 
         [Flags]
         public enum ItemCategories
@@ -84,17 +80,16 @@ namespace BindOnEquip
                 (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool),
                 "List of item categories that are affected by the bind on equip. What this means is items with these categories will use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or weapons.");
 
-            IncludedItems = config("1 - General", "Included Items", "", "List of items to be forced bounded, no spaces, like the following, 'ArmorCarapaceChest,SwordIron'");
-
-
-            Item heroBlade = new("bindonequip", "Unbinder");
-            heroBlade.Crafting.Add(CraftingTable.Forge, 2);
-            heroBlade.RequiredItems.Add("Iron", 5);
-            heroBlade.RequiredItems.Add("LeatherScraps", 1);
-            heroBlade.RequiredItems.Add("GreydwarfEye", 1);
-            heroBlade.RequiredUpgradeItems.Add("Iron", 2);
-            heroBlade.RequiredUpgradeItems.Add("LeatherScraps", 1);
-            heroBlade.RequiredUpgradeItems.Add("GreydwarfEye", 1);
+            IncludedItems = config("1 - General", "Included Items", "", "List of items to be forced bounded, comma seperated, like the following, 'ArmorCarapaceChest, SwordIron'");
+            
+            Item Unbinder = new("bindonequip", "Unbinder");
+            Unbinder.Crafting.Add(CraftingTable.Forge, 2);
+            Unbinder.RequiredItems.Add("Iron", 5);
+            Unbinder.RequiredItems.Add("LeatherScraps", 1);
+            Unbinder.RequiredItems.Add("GreydwarfEye", 1);
+            Unbinder.RequiredUpgradeItems.Add("Iron", 2);
+            Unbinder.RequiredUpgradeItems.Add("LeatherScraps", 1);
+            Unbinder.RequiredUpgradeItems.Add("GreydwarfEye", 1);
 
 
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -162,7 +157,6 @@ namespace BindOnEquip
                 Config.Reload();
                 MappedItems.Clear();
                 MappedItems = IncludedItems.Value.Split(',').ToList();
-
             }
             catch
             {
@@ -214,9 +208,9 @@ namespace BindOnEquip
         private class ConfigurationManagerAttributes
         {
             [UsedImplicitly] public int? Order = null!;
-            [UsedImplicitly] public bool? Browsable  = null!;
-            [UsedImplicitly] public string Category  = null!;
-            [UsedImplicitly] public Action<ConfigEntryBase>? CustomDrawer  = null!;
+            [UsedImplicitly] public bool? Browsable = null!;
+            [UsedImplicitly] public string Category = null!;
+            [UsedImplicitly] public Action<ConfigEntryBase>? CustomDrawer = null!;
         }
 
         #endregion
