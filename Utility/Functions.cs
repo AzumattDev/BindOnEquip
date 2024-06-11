@@ -30,8 +30,7 @@ public static class Functions
 
     public static bool CompareItemData(this ItemDrop.ItemData data, string uid, string playername)
     {
-        return data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID] == uid &&
-               data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName] == playername;
+        return data.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID] == uid && data.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName] == playername;
     }
     
     public static bool IsBound(this ItemDrop.ItemData data)

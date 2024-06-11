@@ -58,14 +58,14 @@ static class InventoryCanAddItempatch
     }
 }
 
-[HarmonyPatch(typeof(Inventory), nameof(Inventory.AddItem), typeof(ItemDrop.ItemData))]
+/*[HarmonyPatch(typeof(Inventory), nameof(Inventory.AddItem), typeof(ItemDrop.ItemData))]
 static class InventoryAddItemPatch
 {
     static bool Prefix(Inventory __instance, ItemDrop.ItemData item)
     {
         return CommonMethods.CheckItemData(item, true, false);
     }
-}
+}*/
 
 [HarmonyPatch(typeof(InventoryGui), nameof(InventoryGui.OnSelectedItem))]
 static class InventoryGuiOnSelectedItemPatch

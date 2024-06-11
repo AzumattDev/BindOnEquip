@@ -21,7 +21,7 @@ namespace BindOnEquip
     public class BindOnEquipPlugin : BaseUnityPlugin
     {
         internal const string ModName = "BindOnEquip";
-        internal const string ModVersion = "1.3.5";
+        internal const string ModVersion = "1.3.6";
         internal const string Author = "Azumatt";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
@@ -72,13 +72,10 @@ namespace BindOnEquip
         {
             Localizer.Load();
 
-            _serverConfigLocked = config("1 - General", "Lock Configuration", Toggle.On,
-                "If on, the configuration is locked and can be changed by server admins only.");
+            _serverConfigLocked = config("1 - General", "Lock Configuration", Toggle.On, "If on, the configuration is locked and can be changed by server admins only.");
             _ = ConfigSync.AddLockingConfigEntry(_serverConfigLocked);
 
-            IncludedCategories = ItemCatConfig("1 - General", "Included Categories",
-                (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool),
-                "List of item categories that are affected by the bind on equip. What this means is items with these categories will use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or weapons.");
+            IncludedCategories = ItemCatConfig("1 - General", "Included Categories", (ItemCategories)Enum.GetValues(typeof(ItemCategories)).Cast<int>().Sum() & ~(ItemCategories.Ammo | ItemCategories.Torch | ItemCategories.Tool), "List of item categories that are affected by the bind on equip. What this means is items with these categories will use the bind on equip system. This is useful for items that are meant to be bound to a player, such as armor or weapons.");
 
             IncludedItems = config("1 - General", "Included Items", "", "List of items to be forced bounded, comma seperated, like the following, 'ArmorCarapaceChest, SwordIron'");
             
@@ -172,14 +169,9 @@ namespace BindOnEquip
         internal static ConfigEntry<ItemCategories> IncludedCategories = null!;
         internal static ConfigEntry<string> IncludedItems = null!;
 
-        private ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description,
-            bool synchronizedSetting = true)
+        private ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description, bool synchronizedSetting = true)
         {
-            ConfigDescription extendedDescription =
-                new(
-                    description.Description +
-                    (synchronizedSetting ? " [Synced with Server]" : " [Not Synced with Server]"),
-                    description.AcceptableValues, description.Tags);
+            ConfigDescription extendedDescription = new(description.Description + (synchronizedSetting ? " [Synced with Server]" : " [Not Synced with Server]"), description.AcceptableValues, description.Tags);
             ConfigEntry<T> configEntry = Config.Bind(group, name, value, extendedDescription);
             //var configEntry = Config.Bind(group, name, value, description);
 
@@ -189,14 +181,12 @@ namespace BindOnEquip
             return configEntry;
         }
 
-        private ConfigEntry<T> config<T>(string group, string name, T value, string description,
-            bool synchronizedSetting = true)
+        private ConfigEntry<T> config<T>(string group, string name, T value, string description, bool synchronizedSetting = true)
         {
             return config(group, name, value, new ConfigDescription(description), synchronizedSetting);
         }
 
-        ConfigEntry<T> ItemCatConfig<T>(string group, string name, T value, string desc,
-            bool synchronizedSetting = true)
+        ConfigEntry<T> ItemCatConfig<T>(string group, string name, T value, string desc, bool synchronizedSetting = true)
         {
             ConfigurationManagerAttributes attributes = new()
             {
