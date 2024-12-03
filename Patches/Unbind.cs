@@ -1,6 +1,7 @@
 ﻿using BindOnEquip;
 using BindOnEquip.Utility;
 using HarmonyLib;
+using ItemDataManager;
 
 [HarmonyPatch(typeof(InventoryGui), nameof(InventoryGui.OnSelectedItem))]
 static class InventoryGuiOnSelectedItemPatch
@@ -16,6 +17,7 @@ static class InventoryGuiOnSelectedItemPatch
         if (__instance.m_dragItem.m_shared.m_name != UnbindItem) return true;
         if (item.m_shared.m_name == UnbindItem) return true;
         if (!item.IsBound()) return true;
+        if (item.Data()[BindOnEquipPlugin.ItemDataKeys.PlayerName] != Game.instance.GetPlayerProfile().m_playerName || item.Data()[BindOnEquipPlugin.ItemDataKeys.SteamID] != CommonMethods.GetPlatformUserId()) return true;
         // Unbind the item
         BindOnEquipPlugin.BindOnEquipLogger.LogDebug("Unbinding item");
         item.DefaultSetAllItemData();

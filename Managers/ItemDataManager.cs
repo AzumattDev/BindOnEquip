@@ -116,7 +116,7 @@ public abstract class ItemData
 	}
 }
 
-public sealed class StringItemData : ItemData {}
+public sealed class StringItemData : ItemData;
 
 [PublicAPI]
 public class ItemInfo : IEnumerable<ItemData>
