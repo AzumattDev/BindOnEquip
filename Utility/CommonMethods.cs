@@ -1,5 +1,6 @@
 ﻿using System;
 using ItemDataManager;
+using Splatform;
 
 namespace BindOnEquip.Utility;
 
@@ -50,8 +51,8 @@ static class CommonMethods
 
     public static string GetPlatformUserId()
     {
-        return PrivilegeManager.GetCurrentPlatform() == PrivilegeManager.Platform.Steam
+        return PlatformManager.DistributionPlatform.Platform.ToString() == "Steam"
             ? Steamworks.SteamUser.GetSteamID().ToString()
-            : PrivilegeManager.GetNetworkUserId();
+            : PlatformManager.DistributionPlatform.LocalUser.PlatformUserID.ToString();
     }
 }
