@@ -139,6 +139,7 @@
         <None Include="packages.config"/>
     </ItemGroup>
     <ItemGroup>
+        <Content Include=".github\workflows\publish-mod.yml" />
         <Content Include=".gitignore"/>
         <EmbeddedResource Include="assets\bindonequip"/>
         <Content Include="environment.props"/>
